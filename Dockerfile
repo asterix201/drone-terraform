@@ -21,6 +21,8 @@ RUN apk add --no-cache \
     ca-certificates \
     git \
     wget \
+    curl \
+    bash \
     openssh-client
 
 ARG terraform_version
@@ -28,5 +30,11 @@ RUN wget -q https://releases.hashicorp.com/terraform/${terraform_version}/terraf
   unzip terraform.zip -d /bin && \
   rm -f terraform.zip
 
+RUN curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /bin/yandex-cloud -n
+
 COPY --from=builder /go/bin/drone-terraform /bin/
-ENTRYPOINT ["/bin/drone-terraform"]
+COPY entrypoint.sh /bin/entrypoint.sh
+
+ENTRYPOINT ["/bin/entrypoint.sh"]
+
+# ENTRYPOINT ["/bin/drone-terraform"]
