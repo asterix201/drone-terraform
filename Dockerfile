@@ -23,7 +23,8 @@ RUN apk add --no-cache \
     wget \
     curl \
     bash \
-    openssh-client
+    openssh-client \
+    openssl
 
 ARG terraform_version
 RUN wget -q https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip -O terraform.zip && \
